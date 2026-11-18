@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Passport — Free Soulbound Badge for Agent ID Holders</title>
+<meta name="description" content="Agent Passport is a free soulbound badge NFT for Agent ID holders on BNB Chain. One per Agent ID, free mint (gas only), non-transferable.">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="metadata/badge.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <img src="metadata/badge.svg" alt="Agent Passport badge" class="brand-badge">
+      <div>
+        <h1>Agent Passport</h1>
+        <p class="tagline">A free soulbound badge for Agent ID holders on BNB Chain.</p>
+      </div>
+    </div>
+    <button id="connectBtn" class="btn primary">Connect Wallet</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="libError" class="alert error hidden">
+    The wallet library failed to load. Please refresh the page.
+  </div>
+
+  <div id="notDeployed" class="alert info hidden">
+    The Agent Passport contract has not been deployed yet. The mint opens as
+    soon as the contract is live on BNB Chain — check back soon.
+  </div>
+
+  <section class="card" id="mintCard">
+    <h2>Mint your Passport</h2>
+    <p class="muted">
+      Free mint — you only pay the network gas fee. One Passport per wallet,
+      only for addresses holding a SPACE ID Agent ID. The badge is soulbound:
+      it can never be transferred or sold.
+    </p>
+
+    <dl class="status">
+      <div><dt>Wallet</dt><dd id="walletAddr">Not connected</dd></div>
+      <div><dt>Network</dt><dd id="networkName">—</dd></div>
+      <div><dt>Agent ID</dt><dd id="agentIdStatus">—</dd></div>
+      <div><dt>Your Passport</dt><dd id="passportStatus">—</dd></div>
+      <div><dt>Minted</dt><dd id="mintedCount">— / 100,000</dd></div>
+    </dl>
+
+    <div class="actions">
+      <button id="mintBtn" class="btn primary big" disabled>Connect your wallet to mint</button>
+      <button id="switchBtn" class="btn hidden">Switch to BNB Chain</button>
+    </div>
+    <p id="mintMsg" class="msg" aria-live="polite"></p>
+    <p class="fineprint">
+      Minting costs gas only — the contract charges no fee and never holds your
+      funds. You confirm the transaction yourself in your wallet; nothing is
+      ever signed automatically.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li>
+        <strong>Hold an Agent ID.</strong>
+        An Agent ID is the on-chain name of an Agentic Wallet (a <em>name.ai</em>
+        identity). Each user can claim only one, and it is non-transferable.
+        Agent IDs are claimed inside the Binance app (Wallet &gt; homepage banner &gt; Agent ID).
+      </li>
+      <li>
+        <strong>Connect your wallet</strong> on BNB Chain (chain ID 56) using the
+        button above.
+      </li>
+      <li>
+        <strong>Mint your free Passport.</strong> One per wallet, forever.
+        The badge is soulbound — it stays with your wallet and cannot be
+        transferred to anyone else.
+      </li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Recent minters</h2>
+    <p class="muted">The latest Passports minted, read live from BNB Chain.</p>
+    <div id="leaderboard">
+      <p class="muted">Loading…</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Details &amp; rules</h2>
+    <ul class="details">
+      <li><strong>Contract:</strong> <span id="contractLink">Not deployed yet</span></li>
+      <li><strong>Standard:</strong> ERC-721, soulbound (transfers revert)</li>
+      <li><strong>Price:</strong> Free — gas only. No mint fee, no tax, no hidden charges.</li>
+      <li><strong>Limit:</strong> Exactly 1 Passport per wallet; max supply 100,000.</li>
+      <li><strong>Gate:</strong> Minting requires holding a SPACE ID Agent ID
+        (registry <a href="https://bscscan.com/address/0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F" target="_blank" rel="noopener">0x60B9…022F</a>).</li>
+      <li><strong>Owner powers:</strong> The contract owner can only change the
+        metadata base URI. There is no pause, no freeze, no tax, no withdraw,
+        and no way to mint for others or move anyone's Passport.</li>
+      <li><strong>Value:</strong> The Passport is an identity badge. It carries
+        no monetary value and grants no rewards or earnings.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>About the hackathon</h2>
+    <p>
+      Agent Passport was built for the
+      <a id="hackathonLink" href="https://www.binance.com/en/support/announcement/detail/95f5dbe0ea674a48a739b59e046648bf" target="_blank" rel="noopener">Agent ID Hackathon</a>,
+      hosted by Binance Wallet together with BNB Chain. Project submissions
+      close on 9 December 2026, 08:00 UTC. Agent Passport is an independent
+      community project and is not affiliated with or endorsed by Binance.
+    </p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p class="muted">
+    Agent Passport · Free soulbound badge for Agent ID holders ·
+    <a href="https://github.com/jayabaya7766-commits/agent-passport" target="_blank" rel="noopener">Source on GitHub</a>
+  </p>
+</footer>
+
+<script src="vendor/ethers.umd.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
