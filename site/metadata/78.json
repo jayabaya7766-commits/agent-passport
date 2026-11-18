@@ -1,0 +1,23 @@
+{
+  "name": "Agent Passport #78",
+  "description": "Agent Passport is a free soulbound badge for Agent ID holders on BNB Chain. Each Agent ID can mint exactly one Passport. The badge is non-transferable, carries no monetary value, and grants no rewards or earnings.",
+  "image": "https://jayabaya7766-commits.github.io/agent-passport/metadata/badge.svg",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Agent ID Badge"
+    },
+    {
+      "trait_type": "Soulbound",
+      "value": "Yes"
+    },
+    {
+      "trait_type": "Chain",
+      "value": "BNB Chain"
+    },
+    {
+      "trait_type": "Mint Price",
+      "value": "Free (gas only)"
+    }
+  ]
+}
