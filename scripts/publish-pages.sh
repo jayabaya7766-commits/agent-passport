@@ -6,8 +6,9 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 BRANCH="gh-pages"
+REPO_ROOT="$(pwd)"
 WORKTREE="$(mktemp -d)"
-trap 'rm -rf "$WORKTREE"; git worktree prune' EXIT
+trap 'cd "$REPO_ROOT" && rm -rf "$WORKTREE" && git worktree prune' EXIT
 
 git worktree add --detach "$WORKTREE" >/dev/null 2>&1
 cd "$WORKTREE"
