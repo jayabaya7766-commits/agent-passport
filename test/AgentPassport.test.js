@@ -11,7 +11,7 @@ describe("AgentPassport", function () {
     const registry = await MockAgentID.deploy();
 
     const AgentPassport = await ethers.getContractFactory("AgentPassport");
-    const passport = await AgentPassport.deploy(await registry.getAddress(), BASE_URI);
+    const passport = await AgentPassport.deploy(await registry.getAddress(), BASE_URI, deployer.address);
 
     return { deployer, alice, bob, registry, passport };
   }

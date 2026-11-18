@@ -8,20 +8,21 @@ const { ethers } = require("hardhat");
 
 const REGISTRY = "0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F"; // SPACE ID Agent ID (BSC)
 const BASE_URI = "https://jayabaya7766-commits.github.io/agent-passport/metadata/";
+const OWNER = "0x38F3F94BFC3775Afb3dDED1ceB523A86157E616f"; // user's Agentic Wallet (BSC)
 
 async function main() {
   const [deployer] = await ethers.getSigners();
   const Factory = await ethers.getContractFactory("AgentPassport");
 
   // Gas estimate for the deployment transaction (same bytecode as mainnet).
-  const deployTx = await Factory.getDeployTransaction(REGISTRY, BASE_URI);
+  const deployTx = await Factory.getDeployTransaction(REGISTRY, BASE_URI, OWNER);
   const gasEstimate = await ethers.provider.estimateGas({
     ...deployTx,
     from: deployer.address,
   });
   console.log("deploy gas estimate:", gasEstimate.toString());
 
-  const contract = await Factory.deploy(REGISTRY, BASE_URI);
+  const contract = await Factory.deploy(REGISTRY, BASE_URI, OWNER);
   const receipt = await contract.deploymentTransaction().wait();
   console.log("deploy gas used (local):", receipt.gasUsed.toString());
   console.log("local address (NOT mainnet):", await contract.getAddress());
@@ -31,13 +32,13 @@ async function main() {
 
   // ABI-encoded constructor arguments (for the BscScan verification form).
   const encodedArgs = ethers.AbiCoder.defaultAbiCoder().encode(
-    ["address", "string"],
-    [REGISTRY, BASE_URI]
+    ["address", "string", "address"],
+    [REGISTRY, BASE_URI, OWNER]
   );
   console.log("constructor args (abi-encoded):", encodedArgs);
   console.log("registry:", REGISTRY);
   console.log("baseURI:", BASE_URI);
-  console.log("owner will be the deployer:", deployer.address);
+  console.log("owner (constructor param):", OWNER);
 }
 
 main().catch((e) => {

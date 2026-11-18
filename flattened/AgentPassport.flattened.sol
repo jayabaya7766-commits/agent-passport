@@ -1533,6 +1533,9 @@ contract AgentPassport is ERC721 {
     IAgentIDRegistry public immutable agentIdRegistry;
 
     /// @notice Deployer. Can ONLY call setBaseURI(). Not transferable.
+    /// @dev The owner is a constructor parameter (not msg.sender) because the
+    /// contract is deployed via an on-chain factory: the factory is
+    /// msg.sender at construction, so the real owner must be passed in.
     address public immutable owner;
 
     /// @notice Hard cap on total Passports.
@@ -1562,11 +1565,11 @@ contract AgentPassport is ERC721 {
         _;
     }
 
-    constructor(address _agentIdRegistry, string memory _initialBaseURI)
+    constructor(address _agentIdRegistry, string memory _initialBaseURI, address _owner)
         ERC721("Agent Passport", "APASS")
     {
         agentIdRegistry = IAgentIDRegistry(_agentIdRegistry);
-        owner = msg.sender;
+        owner = _owner;
         _baseTokenURI = _initialBaseURI;
     }
 

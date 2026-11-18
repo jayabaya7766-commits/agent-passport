@@ -6,16 +6,24 @@ user has approved, topped up gas, and enabled Developer Mode.
 ## 1. Preconditions
 
 - [ ] User approved the deploy (explicit yes for this transaction).
-- [ ] Wallet topped up: deploy costs **1,313,318 gas** (measured). At 1–3 gwei
-      that is ~0.0013–0.004 BNB. Top up **~0.005 BNB** to be safe (deploy +
-      a test mint + margin). The wallet currently holds ~0.00042 BNB — not
-      enough.
+- [ ] Gas: factory deploy costs **1,317,399 gas** (measured locally via the
+      factory e2e). At the live BSC gas price of 0.05 gwei that is
+      ~0.000066 BNB. The wallet holds ~0.00042 BNB — enough, NO top-up
+      needed (the earlier ~0.005 BNB figure was a pessimistic 3-gwei
+      estimate; corrected 2026-11-18 22:51 WIB).
 - [ ] Developer Mode ON in the Binance app (required for any baw transaction).
 - [ ] Site is live at https://jayabaya7766-commits.github.io/agent-passport/
       (metadata must be reachable BEFORE deploy, because the base URI is a
       constructor argument).
 
-## 2. Deploy
+## 2. Deploy (via CREATE2 factory — updated 2026-11-18)
+
+`baw` cannot deploy contracts directly (no deploy command; `contract-call
+preview` requires `--to`). Deployment goes through the canonical Arachnid
+deterministic deployment proxy (CREATE2 factory) at
+`0x4e59b44847b379578588920cA78FbF26c0B4956C` (EIP-7997; on-chain code
+verified byte-identical on BSC). The factory is a raw proxy: a plain
+contract call with calldata = salt (32 bytes) ++ initCode, value 0.
 
 - Contract: `contracts/AgentPassport.sol`, compiled with solc **0.8.24**,
   optimizer enabled, runs **200**, evmVersion **paris**.
@@ -25,7 +33,14 @@ user has approved, topped up gas, and enabled Developer Mode.
   1. `_agentIdRegistry` = `0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F`
      (SPACE ID Agent ID registry on BSC — verify on BscScan before deploying)
   2. `_initialBaseURI` = `https://jayabaya7766-commits.github.io/agent-passport/metadata/`
-- The deployer becomes the contract `owner` (can only call `setBaseURI`).
+  3. `_owner` = `0x38F3F94BFC3775Afb3dDED1ceB523A86157E616f` (user's Agentic
+     Wallet — the owner is a constructor parameter because the factory, not
+     the user, is `msg.sender` at construction)
+- Salt: `0x68bcbb05d2769831408a69db9ed7af20356bb8d4d309791efddd27effdf9c0c9`
+  (= keccak256("agent-passport-v1")); exact calldata in `factory-deploy.json`.
+- Expected CREATE2 address: `0x6C42273df5AF1dF73C8140b76D5402B466692f55`
+  (verified empty on BSC mainnet before deploying; proven by
+  `scripts/factory-e2e.js`, PASS).
 - Deploy with the user's own wallet via the normal preview → execute flow
   (one-line summary + clean simulation first, per the safety rails). The
   deploy transaction itself carries **value 0**.

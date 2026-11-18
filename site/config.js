@@ -7,11 +7,12 @@ window.APASS_CONFIG = {
   chainRpc: "https://bsc-dataseed.bnbchain.org",
   chainExplorer: "https://bscscan.com",
 
-  // TODO (parent, after deploy): paste the deployed AgentPassport address.
-  contractAddress: "",
-  // TODO (parent, after deploy): the block the contract was deployed in.
+  // Deployed 2026-11-18 via the Arachnid CREATE2 factory (tx
+  // 0x75102861128020f404b932e2f85e2086cff54be190ec480d87d4647f1d26cf4c).
+  contractAddress: "0x6C42273df5AF1dF73C8140b76D5402B466692f55",
+  // The block the contract was deployed in.
   // The leaderboard scans mint events from this block forward.
-  deployBlock: 0,
+  deployBlock: 134339070,
 
   // SPACE ID Agent ID registry (ERC-721) on BNB Chain — from the official
   // Binance Agent ID Hackathon announcement.
